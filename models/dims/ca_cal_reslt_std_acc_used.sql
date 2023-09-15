@@ -1,0 +1,58 @@
+ {{
+    config(
+        materialized='incremental',
+        unique_key=['EQPMNT_ID','CAL_CONTXT_ID','TEST_AFFCTD_OR_USED_NM','STD_USED_OR_ACCSSRY_FLAG']
+    )
+}}
+
+ 
+  with final as (
+ select
+  stg.EQPMNT_ID,
+  stg.TEST_AFFCTD_OR_TEST_USED_NM as TEST_AFFCTD_OR_USED_NM,
+  stg.STD_USED_OR_ACCSSRY_FLAG,
+  stg.SETUP_NM,
+  stg.ROLE,
+  fact.CAL_CONTXT_ID,
+  stg.CXKEY_SRVC_ORD_NUM,
+  stg.LAST_MODIFIED_DT,
+  stg.CXKEY_PROCEDURE_ID,
+  stg.CXKEY_MFGR_ID,
+  stg.CXKEY_MFGR_MDL_NUM,
+  stg.CXKEY_SR_NUM,
+  stg.CXKEY_FRMWRK_ID,
+  stg.CXKEY_SUBMITTING_ENTITY,
+  stg.RESULT_TYPE,
+  stg.AFFECTED_TRACE_PARAMETERS
+   
+ from {{ ref('ca_cal_reslt_std_acc_used_stg') }} stg
+ left outer join {{ ref('ca_cal_srvc_reslt_fact') }} fact
+ on
+    stg.CXKEY_SRVC_ORD_NUM = fact.CXKEY_SRVC_ORD_NUM AND
+	stg.LAST_MODIFIED_DT = fact.LAST_MODIFIED_DT AND
+	stg.CXKEY_PROCEDURE_ID = fact.CXKEY_CAL_PROCEDURE_ID AND
+	stg.CXKEY_MFGR_ID = fact.CXKEY_MFGR_ID AND
+	stg.CXKEY_MFGR_MDL_NUM = fact.CXKEY_MFGR_MDL_NUM AND
+	stg.CXKEY_SR_NUM = fact.CXKEY_SR_NUM AND
+	stg.CXKEY_FRMWRK_ID = fact.CXKEY_FRMWRK_ID AND
+	stg.CXKEY_SUBMITTING_ENTITY = fact.CXKEY_SUBMITTING_ENTITY
+ )
+    select distinct
+    EQPMNT_ID,
+    CAL_CONTXT_ID,
+	TEST_AFFCTD_OR_USED_NM,
+	STD_USED_OR_ACCSSRY_FLAG,
+	SETUP_NM,
+	ROLE,
+	CXKEY_SRVC_ORD_NUM,
+	LAST_MODIFIED_DT,
+	CXKEY_PROCEDURE_ID,
+	CXKEY_MFGR_ID,
+	CXKEY_MFGR_MDL_NUM,
+	CXKEY_SR_NUM,
+	CXKEY_FRMWRK_ID,
+	CXKEY_SUBMITTING_ENTITY,
+	RESULT_TYPE,
+	AFFECTED_TRACE_PARAMETERS
+    from final
+    where CAL_CONTXT_ID IS NOT NULL
