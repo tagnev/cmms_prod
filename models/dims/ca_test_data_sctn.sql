@@ -49,7 +49,7 @@ WHERE
                               SELECT
                                              DISTINCT CXKEY_SRVC_ORD_NUM
                               FROM
-                                             "SANDBOX"."CMMS_POC"."CA_TEST_DATA_SCTN_STG" STG
+                                             CA_TEST_DATA_SCTN_STG STG
                )
 )
 
@@ -75,13 +75,13 @@ SQ_Z_LKP_3 as (
                CA_CAL_TEST_RESLT_FACT.CXKEY_APP_PLATFORM as LKP2_CXKEY_APP_PLATFORM,
                CA_CAL_TEST_RESLT_FACT.CXKEY_APP_ID as LKP2_CXKEY_APP_ID
 FROM
-               "SANDBOX"."CMMS_POC"."CA_CAL_TEST_RESLT_FACT" CA_CAL_TEST_RESLT_FACT
+               CA_CAL_TEST_RESLT_FACT CA_CAL_TEST_RESLT_FACT
 WHERE
                LAST_MODIFIED_DT IN (
                               SELECT
                                              DISTINCT LAST_MODIFIED_DT
                               FROM
-                                             "SANDBOX"."CMMS_POC"."CA_TEST_DATA_SCTN_STG" STG
+                                             CA_TEST_DATA_SCTN_STG STG
                )
 ),
 
@@ -434,7 +434,7 @@ select distinct
    RESLT_TYP_DATAIS_COPY
 
   
-   FROM "SANDBOX"."CMMS_POC"."CA_TEST_DATA_SCTN_STG" STG
+   FROM CA_TEST_DATA_SCTN_STG STG
    
 ),
 LKPTRANS3 as (
