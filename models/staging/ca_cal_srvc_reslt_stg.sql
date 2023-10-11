@@ -28,7 +28,7 @@ as
   stg.PROCEDURE_ID = raw_stg."ProcedureID" AND 
   stg.FRMWRK_ID = raw_stg."AppFramework_FrameworkID" AND 
  stg.PROCEDURE_VER_NUM = raw_stg."Version"
-  --stg.FRMWRK_VER_NUM = raw_stg."AppFramework_FrameworkID"
+ AND stg.FRMWRK_VER_NUM = raw_stg."AppFramework_FrameworkID"
 ),
 lkp_CA_CAL_RESLT_CONTXT_STG
 as
