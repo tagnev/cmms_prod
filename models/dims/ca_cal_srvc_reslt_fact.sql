@@ -1,7 +1,7 @@
 {{
     config(
         materialized='incremental',
-         unique_key=['CXKEY_MFGR_MDL_NUM', 'UNT_ID', 'CAL_PROCEDURE_ID']
+         unique_key=['CXKEY_MFGR_MDL_NUM', 'UNT_ID']
     )
 }}
 
