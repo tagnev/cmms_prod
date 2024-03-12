@@ -134,7 +134,8 @@ with
      union_trans as (
         select stg1.*, stg2.*
         from recd stg1
-         inner join compl stg2 on stg1.cxkey_cal_test_reslt_nm = stg2.as_cmp_name
+        --- inner join 
+            left outer join compl stg2 on stg1.cxkey_cal_test_reslt_nm = stg2.as_cmp_name
    -- and stg1.CXKEY_TEST_DATA_SCTN_UNIQUE_ID=stg2.AS_CMP_TESTDATASECTION_ID
     ) select distinct raw_stg.*, stg.MSRMNT_ID as msrmnt_id,stg.short_data_id, ca_msrmnt_reslt_seq.nextval as MSRMNT_RESLT_ID
 from union_trans raw_stg

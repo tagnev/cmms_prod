@@ -13,6 +13,7 @@ with
             null as as_completed_resultstype
         from ca_msrmnt_data_raw_stg
         where "ResultsType" = 'AS_RECEIVED'
+        
     ),
     exp_cmpl as (
         select
@@ -21,6 +22,7 @@ with
             'AS_COMPLETED' as as_completed_resultstype
         from ca_msrmnt_data_raw_stg
         where "ResultsType" = 'AS_COMPLETED'
+        
     ),
     data1 as (
         select *
@@ -192,7 +194,7 @@ with
     final as (
         select stg1.*, stg2.*, ca_msrmnt_data_stg_seq.nextval as msrmnt_data_indntifier
         from recd stg1
-        join
+        left join
             compl stg2
             on stg1.cxkey_test_data_sctn_nm = stg2.as_cmp_cal_tst_data_sctn_nm
             and stg1.data_id = stg2.as_cmp_data_id
