@@ -23,15 +23,15 @@ as
 "AppFramework_FrameworkID",
   "ResultsType",
   "AS_CMP_ResultsType",
-  IFF("ResultsType"='AS_COMPLETED','E',
-IFF("AS_CMP_ResultsType"='AS_RECEIVED','E',
+  IFF("ResultsType"='AS_RECEIVED','E',
+IFF("AS_CMP_ResultsType"='AS_COMPLETED','E',
 IFF("ResultsType"='BOTH','B',
 IFF("ResultsType"='AS_RECEIVED' AND "AS_CMP_ResultsType" is null,'R',
 IFF("AS_CMP_ResultsType"='AS_COMPLETED' AND "ResultsType" is null,'C',
 IFF("ResultsType"='AS_RECEIVED' AND "AS_CMP_ResultsType"='AS_COMPLETED','A','X')))))) as RT,
   RT as RESULTS_TYPE,
-  IFF("ResultsType"='AS_COMPLETED','E',
-IFF("AS_CMP_ResultsType"='AS_RECEIVED','E',
+  IFF("ResultsType"='AS_RECEIVED','E',
+IFF("AS_CMP_ResultsType"='AS_COMPLETED','E',
 IFF("ResultsType"='BOTH','B',
 IFF("ResultsType"='AS_RECEIVED' AND "AS_CMP_ResultsType" is null,'R',
 IFF("AS_CMP_ResultsType"='AS_COMPLETED' AND "ResultsType" is null,'C',
@@ -106,9 +106,9 @@ exp_ascompletedata
 as
 (
   select *,
-  IFF(RT= 'R' AND "AS_CMP_ResultsType" is null,'AS_RECEIVED',
-IFF(RT= 'B' AND NOT "AS_CMP_ResultsType" is null,'AS_RECEIVED',
-IFF(RT= 'X' AND "AS_CMP_ResultsType" is null,'AS_RECEIVED',
+  IFF(RT= 'R' AND "AS_CMP_ResultsType" is null,'AS_COMPLETED',
+IFF(RT= 'B' AND NOT "AS_CMP_ResultsType" is null,'AS_COMPLETED',
+IFF(RT= 'X' AND "AS_CMP_ResultsType" is null,'AS_COMPLETED',
 "AS_CMP_ResultsType"))) as Flag
   from exp_calserviceresults
 ),
