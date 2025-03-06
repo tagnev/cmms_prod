@@ -33,10 +33,10 @@ with
         select
             *,
             iff(
-                as_received_resultstype = 'AS_COMPLETED',
+                as_received_resultstype = 'AS_RECEIVED',
                 'E',
                 iff(
-                    as_completed_resultstype = 'AS_RECEIVED',
+                    as_completed_resultstype = 'AS_COMPLETED',
                     'E',
                     iff(
                         as_received_resultstype = 'BOTH',

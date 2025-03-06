@@ -23,15 +23,15 @@ as
 "AppFramework_FrameworkID",
   "ResultsType",
   "AS_CMP_ResultsType",
-  IFF("ResultsType"='AS_COMPLETED','E',
-IFF("AS_CMP_ResultsType"='AS_RECEIVED','E',
+  IFF("ResultsType"='AS_RECEIVED','E',
+IFF("AS_CMP_ResultsType"='AS_COMPLETED','E',
 IFF("ResultsType"='BOTH','B',
 IFF("ResultsType"='AS_RECEIVED' AND "AS_CMP_ResultsType" is null,'R',
 IFF("AS_CMP_ResultsType"='AS_COMPLETED' AND "ResultsType" is null,'C',
 IFF("ResultsType"='AS_RECEIVED' AND "AS_CMP_ResultsType"='AS_COMPLETED','A','X')))))) as RT,
   RT as RESULTS_TYPE,
-  IFF("ResultsType"='AS_COMPLETED','E',
-IFF("AS_CMP_ResultsType"='AS_RECEIVED','E',
+  IFF("ResultsType"='AS_RECEIVED','E',
+IFF("AS_CMP_ResultsType"='AS_COMPLETED','E',
 IFF("ResultsType"='BOTH','B',
 IFF("ResultsType"='AS_RECEIVED' AND "AS_CMP_ResultsType" is null,'R',
 IFF("AS_CMP_ResultsType"='AS_COMPLETED' AND "ResultsType" is null,'C',
@@ -99,17 +99,17 @@ as
       IFF(RT= 'C' AND "ResultsType" is null,'AS_RECEIVED',
 IFF(RT= 'B' AND NOT "ResultsType" is null,'AS_RECEIVED',
 IFF(RT= 'X' AND "ResultsType" is null,'AS_RECEIVED',
-"ResultsType"))) as Flag
+"ResultsType"))) as CXKEY_RESLT_TYP
   from exp_calserviceresults
 ),
 exp_ascompletedata
 as
 (
   select *,
-  IFF(RT= 'R' AND "AS_CMP_ResultsType" is null,'AS_RECEIVED',
-IFF(RT= 'B' AND NOT "AS_CMP_ResultsType" is null,'AS_RECEIVED',
-IFF(RT= 'X' AND "AS_CMP_ResultsType" is null,'AS_RECEIVED',
-"AS_CMP_ResultsType"))) as Flag
+  IFF(RT= 'R' AND "AS_CMP_ResultsType" is null,'AS_COMPLETED',
+IFF(RT= 'B' AND NOT "AS_CMP_ResultsType" is null,'AS_COMPLETED',
+IFF(RT= 'X' AND "AS_CMP_ResultsType" is null,'AS_COMPLETED',
+"AS_CMP_ResultsType"))) as CXKEY_RESLT_TYP
   from exp_calserviceresults
 ),
 union_trans as 
@@ -135,7 +135,7 @@ OUT_AS_RECEIVED_TESTSTARTTIME as TEST_ST_TIME,
 OUT_AS_RECEIVED_STATION as STTN_NM,
 OUT_AS_RECEIVED_TESTENDTIME as TEST_END_TIME,
 OUT_AS_RECEIVED_REPORTNAME as REPRT_NM,
-OUT_AS_RECEIVED_RESULTSTYPE as CXKEY_RESLT_TYP,
+CXKEY_RESLT_TYP as CXKEY_RESLT_TYP,
 OUT_AS_RECEIVED_UNCERTAINTYSTATUS as UNCRTNTY_STAT_VAL,
 OUT_AS_RECEIVED_REPORTEDJUDGEMENT as RPRTD_JDGMNT,
 OUT_AS_RECEIVED_STANDARDJUDGEMENT as STD_JDGMNT,
@@ -182,7 +182,7 @@ CAL_TST_ASCOMPLETEDPROCESSJUDGEMENT as AS_CMP_CAL_TST_PRCSS_JDGMNT,
 CAL_TST_ASCOMPLETEDNEARSPECIFICATIONLIMIT as AS_CMP_CAL_TST_NR_SPTN_LT_IND,
 CAL_TST_ASCOMPLETEDNEARGUARDBANDLIMIT as AS_CMP_CAL_TST_NR_GDBD_LMT_IND,
 RESULTSTYPEDATAISCOPY as RESLT_TYP_DATAIS_COPY,
-FLAG
+v_FLAG AS FLAG
 from union_trans
   ),
   exp_asrecdorcomp
@@ -258,7 +258,7 @@ from after_union_trans
   as
   (
   select * from exp_asrecdorcomp
-  where FLAG!='E'  
+  where CXKEY_RESLT_TYP!='E'  
   ),
   final 
   as
@@ -269,7 +269,7 @@ TEST_ST_TIME,
 TEST_END_TIME,
 STTN_NM,
 REPRT_NM,
-CXKEY_RESLT_TYP,
+RESLT_TYP as CXKEY_RESLT_TYP,
 COVERAGE_FACTOR,
 LMTED_TUR,
 FIRMWARE_VER,
