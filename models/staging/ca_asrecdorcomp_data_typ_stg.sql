@@ -106,9 +106,15 @@ exp_ascompletedata
 as
 (
   select *,
+<<<<<<< HEAD
   IFF(RT= 'R' AND "AS_CMP_ResultsType" is null,'AS_COMPLETED',
 IFF(RT= 'B' AND NOT "AS_CMP_ResultsType" is null,'AS_COMPLETED',
 IFF(RT= 'X' AND "AS_CMP_ResultsType" is null,'AS_COMPLETED',
+=======
+  IFF(RT= 'R' AND "AS_CMP_ResultsType" is null,'AS_RECEIVED',
+IFF(RT= 'B' AND NOT "AS_CMP_ResultsType" is null,'AS_RECEIVED',
+IFF(RT= 'X' AND "AS_CMP_ResultsType" is null,'AS_RECEIVED',
+>>>>>>> 39ea5e91fa8282367da82b5219bd1f0997bd85ef
 "AS_CMP_ResultsType"))) as CXKEY_RESLT_TYP
   from exp_calserviceresults
 ),
